@@ -8,12 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		A18E56CC1C5DB1D300019E32 /* ACRKeyboardObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = A18E56CB1C5DB1D300019E32 /* ACRKeyboardObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A18E56D41C5DB21000019E32 /* ACRKeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18E56D31C5DB21000019E32 /* ACRKeyboardObserver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A18E56C81C5DB1D300019E32 /* ACRKeyboardObserver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ACRKeyboardObserver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A18E56CB1C5DB1D300019E32 /* ACRKeyboardObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACRKeyboardObserver.h; sourceTree = "<group>"; };
 		A18E56CD1C5DB1D300019E32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A18E56D31C5DB21000019E32 /* ACRKeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACRKeyboardObserver.swift; sourceTree = "<group>"; };
+		A18E56D51C5DB37900019E32 /* ACRKeyboardObserver.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ACRKeyboardObserver.podspec; sourceTree = SOURCE_ROOT; };
+		A18E56D61C5DBAF000019E32 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		A18E56D71C5DBAF000019E32 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +51,12 @@
 		A18E56CA1C5DB1D300019E32 /* ACRKeyboardObserver */ = {
 			isa = PBXGroup;
 			children = (
+				A18E56D61C5DBAF000019E32 /* LICENSE */,
+				A18E56D71C5DBAF000019E32 /* README.md */,
+				A18E56D51C5DB37900019E32 /* ACRKeyboardObserver.podspec */,
 				A18E56CB1C5DB1D300019E32 /* ACRKeyboardObserver.h */,
 				A18E56CD1C5DB1D300019E32 /* Info.plist */,
+				A18E56D31C5DB21000019E32 /* ACRKeyboardObserver.swift */,
 			);
 			path = ACRKeyboardObserver;
 			sourceTree = "<group>";
@@ -130,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A18E56D41C5DB21000019E32 /* ACRKeyboardObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +238,7 @@
 		A18E56D11C5DB1D300019E32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -238,12 +249,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.casystems.ACRKeyboardObserver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		A18E56D21C5DB1D300019E32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
