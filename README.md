@@ -2,7 +2,7 @@
 
 Swift iOS keyboard observer helping you manage keyboard notifications, frame changes and simplifies animations.
 
-ACRKeyboardObserver makes it easy to handle iOS keyboard state changes like WillShow or DidHide. It also does a better job at providing an accurate keyboard frame size, rather than the native callbacks. It's especially useful when dismissing a keyboard interactively.
+ACRKeyboardObserver makes it easy to handle iOS keyboard state changes like `willShow` or `didHide`. It also does a better job at providing an accurate keyboard frame size, rather than the native callbacks. It's especially useful when dismissing a keyboard interactively.
 
 
 ### Installation
@@ -86,12 +86,12 @@ I'll expand the documentation but the code is pretty simple and it should be fai
 If you're allowing the user to dismiss the keyboard interactively, eg:
 
 ```swift
-textView.keyboardDismissMode = .Interactive
+textView.keyboardDismissMode = .interactive
 ```
 
-You will get `status.state == .FrameChanged` notifications when the user starts dragging to dismiss. When the drag is completed and keyboard is technically dismissed, you will also get the `.WillHide` and `.DidHide` calls. These calls, as always, include the keyboard frame but it's not reporting the real frame / origin. I haven't decided on how to handle this but leaning towards not trusting iOS on the keyboard size and instead figure out the real keyboard frame.
+You will get `status.state == .frameChanged` notifications when the user starts dragging to dismiss. When the drag is completed and keyboard is technically dismissed, you will also get the `.WillHide` and `.DidHide` calls. These calls, as always, include the keyboard frame but it's not reporting the real frame / origin. I haven't decided on how to handle this but leaning towards not trusting iOS on the keyboard size and instead figure out the real keyboard frame.
 
-One workaround is looking at your views, if they are in the "keyboard is hidden" state, ignore the `.WillHide` and `.DidHide` calls.
+One workaround is looking at your views, if they are in the "keyboard is hidden" state, ignore the `.willHide` and `.didHide` calls.
 
 ### License
 
