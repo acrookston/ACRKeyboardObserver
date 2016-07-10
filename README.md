@@ -5,6 +5,10 @@ Swift iOS keyboard observer helping you manage keyboard notifications, frame cha
 ACRKeyboardObserver makes it easy to handle iOS keyboard state changes like WillShow or DidHide. It also does a better job at providing an accurate keyboard frame size, rather than the native callbacks. It's especially useful when dismissing a keyboard interactively.
 
 
+#### Swift 3
+
+There is an experimental Swift 3 branch located called [swift-3](/acrookston/ACRKeyboardObserver/tree/swift-3).
+
 ### Installation
 
 Install with **CocoaPods**.
