@@ -12,7 +12,7 @@ Install with **CocoaPods**.
 ```ruby
 platform :ios, '8.0'
 use_frameworks!
-pod 'ACRKeyboardObserver', '>= 0.1.0'
+pod 'ACRKeyboardObserver', git: 'https://github.com/acrookston/ACRKeyboardObserver', branch: 'swift-3'
 ```
 
 
