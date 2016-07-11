@@ -7,7 +7,7 @@ ACRKeyboardObserver makes it easy to handle iOS keyboard state changes like Will
 
 #### Swift 3
 
-There is an experimental Swift 3 branch located called [swift-3](/acrookston/ACRKeyboardObserver/tree/swift-3).
+There is an experimental Swift 3 branch located called [swift-3](https://github.com/acrookston/ACRKeyboardObserver/tree/swift-3).
 
 ### Installation
 
