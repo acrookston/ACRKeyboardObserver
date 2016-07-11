@@ -60,15 +60,15 @@ class SomeKeyboardController: UIViewController, ACRKeyboardObserverDelegate {
     }
 
     // 2.
-    func keyboardChanged(status: KeyboardStatus) {
+    func keyboardChanged(_ status: KeyboardStatus) {
+        // 3.1.
         if let animation = status.animation {
-            // 3.1.
-            UIView.animateWithDuration(animation.duration, delay: 0, options: animation.option, animations: { () -> Void in
-                self.updateFrameFromKeyboard(animation.top)
+            UIView.animate(withDuration: animation.duration, delay: 0, options: animation.option, animations: { () -> Void in
+                self.updateFrameFromKeyboard(top: animation.top)
             }, completion: nil)
         } else if let frame = status.frame {
             // 3.2.
-            updateFrameFromKeyboard(frame.origin.y)
+            updateFrameFromKeyboard(top: frame.origin.y)
         }
     }
 
