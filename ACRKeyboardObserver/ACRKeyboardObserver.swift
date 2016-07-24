@@ -41,20 +41,20 @@ public class ACRKeyboardObserver : NSObject {
     }
 
     public func start() {
-        NotificationCenter.default().addObserver(self, selector: Selector("keyboardDidChange:"), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
-        NotificationCenter.default().addObserver(self, selector: Selector("keyboardWillHide:"), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default().addObserver(self, selector: Selector("keyboardDidHide:"), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
-        NotificationCenter.default().addObserver(self, selector: Selector("keyboardWillShow:"), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default().addObserver(self, selector: Selector("keyboardDidShow:"), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChange), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
 
     public func stop() {
         unregisterKeyboardObserver()
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.UIKeyboardDidHide, object: nil)
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object:nil)
-        NotificationCenter.default().removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object:nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
 
     public func addDelegate(_ delegate: ACRKeyboardObserverDelegate) {
