@@ -22,7 +22,7 @@ public struct KeyboardStatus {
 public struct KeyboardAnimation {
     public var top : CGFloat
     public var curve : UIViewAnimationCurve
-    public var duration : TimeInterval
+    public var duration : Double
     public var option : UIViewAnimationOptions
 }
 
@@ -131,7 +131,7 @@ public class ACRKeyboardObserver : NSObject {
         guard notification != nil else { return nil }
 
         if let info = (notification! as NSNotification).userInfo {
-            let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue()
+            let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             let curveValue = info[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
             let durationValue = info[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
 
@@ -139,11 +139,11 @@ public class ACRKeyboardObserver : NSObject {
                 return nil
             }
 
-            let portrait = UIDeviceOrientationIsPortrait(UIDevice.current().orientation)
+            let portrait = UIDeviceOrientationIsPortrait(UIDevice.current.orientation)
             let height = portrait ? keyboardFrame!.size.height : keyboardFrame!.size.width;
-            let screenHeight = UIScreen.main().bounds.size.height
+            let screenHeight = UIScreen.main.bounds.size.height
 
-            let app = UIApplication.shared()
+            let app = UIApplication.shared
             let statusBarHeight = app.isStatusBarHidden ? 0 : app.statusBarFrame.size.height
 
             let animateToHeight = screenHeight - height - statusBarHeight
@@ -182,9 +182,9 @@ public class ACRKeyboardObserver : NSObject {
     // MARK: - Handle keyboard view
 
     private func getKeyboardView() -> UIView? {
-        guard UIApplication.shared().windows.count > 0 else { return nil }
+        guard UIApplication.shared.windows.count > 0 else { return nil }
 
-        for window in UIApplication.shared().windows {
+        for window in UIApplication.shared.windows {
             // Because we cant get access to the UIPeripheral throught the SDK we use its UIView.
             // UIPeripheral is a subclass of UIView anyway.
             // Our keyboard will end up as a UIView reference to the UIPeripheral / UIInput we want.
