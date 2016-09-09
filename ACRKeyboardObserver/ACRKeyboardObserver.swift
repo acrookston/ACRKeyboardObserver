@@ -220,7 +220,7 @@ public class ACRKeyboardObserver : NSObject {
         keyboard.layer.removeObserver(self, forKeyPath: KVOKey)
     }
 
-    override public func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?) {
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyboard != nil && object != nil && keyPath != nil {
             if keyboard!.layer == (object as? CALayer) && KVOKey == keyPath! {
                 status(.frameChanged, notification: nil)
