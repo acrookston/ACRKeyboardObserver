@@ -9,7 +9,7 @@
 import Foundation
 
 public enum KeyboardState {
-    case Hidden, Visible, FrameChanged, WillHide, DidHide, WillShow, DidShow
+    case hidden, visible, frameChanged, willHide, didHide, willShow, didShow
 }
 
 public struct KeyboardStatus {
@@ -22,12 +22,12 @@ public struct KeyboardStatus {
 public struct KeyboardAnimation {
     public var top : CGFloat
     public var curve : UIViewAnimationCurve
-    public var duration : NSTimeInterval
+    public var duration : Double
     public var option : UIViewAnimationOptions
 }
 
 public protocol ACRKeyboardObserverDelegate : class {
-    func keyboardChanged(status: KeyboardStatus)
+    func keyboardChanged(_ status: KeyboardStatus)
 }
 
 public class ACRKeyboardObserver : NSObject {
@@ -36,32 +36,32 @@ public class ACRKeyboardObserver : NSObject {
 
     public var animation : KeyboardAnimation?
 
-    public var keyboardStatus = KeyboardStatus(state: .Hidden, frame: nil, animation: nil, view: nil) {
+    public var keyboardStatus = KeyboardStatus(state: .hidden, frame: nil, animation: nil, view: nil) {
         didSet { updateDelegates() }
     }
 
     public func start() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidChange:"), name: UIKeyboardDidChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidHide:"), name: UIKeyboardDidHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidShow:"), name: UIKeyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChange), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
 
     public func stop() {
         unregisterKeyboardObserver()
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object:nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object:nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
 
-    public func addDelegate(delegate: ACRKeyboardObserverDelegate) {
+    public func addDelegate(_ delegate: ACRKeyboardObserverDelegate) {
         delegates.append(DelegateWrapper(delegate: delegate))
     }
 
-    public func removeDelegate(delegate: ACRKeyboardObserverDelegate) {
+    public func removeDelegate(_ delegate: ACRKeyboardObserverDelegate) {
         var updated = [DelegateWrapper]()
         for wrapper in delegates {
             if wrapper.delegate !== delegate {
@@ -99,39 +99,39 @@ public class ACRKeyboardObserver : NSObject {
 
     // MARK: - Notification callbacks
 
-    func keyboardDidChange(notification: NSNotification) {
+    func keyboardDidChange(_ notification: Notification) {
         // Since we handle the keyboard frame KVO-style we don't want to send multiple FrameChanged
         guard keyboard == nil else { return }
         registerKeyboardObserver()
-        status(.FrameChanged, notification: notification)
+        status(.frameChanged, notification: notification)
     }
 
-    func keyboardWillShow(notification: NSNotification) {
-        status(.WillShow, notification: notification)
+    func keyboardWillShow(_ notification: Notification) {
+        status(.willShow, notification: notification)
     }
 
-    func keyboardDidShow(notification: NSNotification) {
-        status(.DidShow, notification: notification)
+    func keyboardDidShow(_ notification: Notification) {
+        status(.didShow, notification: notification)
     }
 
-    func keyboardWillHide(notification: NSNotification) {
-        status(.WillHide, notification: notification)
+    func keyboardWillHide(_ notification: Notification) {
+        status(.willHide, notification: notification)
     }
 
-    func keyboardDidHide(notification: NSNotification) {
-        status(.DidHide, notification: notification)
+    func keyboardDidHide(_ notification: Notification) {
+        status(.didHide, notification: notification)
     }
 
-    private func status(status: KeyboardState, notification: NSNotification?) {
+    private func status(_ status: KeyboardState, notification: Notification?) {
         animation = extractAnimation(notification)
         keyboardStatus = KeyboardStatus(state: status, frame: keyboard?.layer.frame, animation: animation, view: keyboard)
     }
 
-    private func extractAnimation(notification: NSNotification?) -> KeyboardAnimation? {
+    private func extractAnimation(_ notification: Notification?) -> KeyboardAnimation? {
         guard notification != nil else { return nil }
 
-        if let info = notification!.userInfo {
-            let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue()
+        if let info = (notification! as NSNotification).userInfo {
+            let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             let curveValue = info[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
             let durationValue = info[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
 
@@ -139,17 +139,15 @@ public class ACRKeyboardObserver : NSObject {
                 return nil
             }
 
-            let portrait = UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation)
-            let height = portrait ? keyboardFrame!.size.height : keyboardFrame!.size.width;
-            let screenHeight = UIScreen.mainScreen().bounds.size.height
-
-            let app = UIApplication.sharedApplication()
-            let statusBarHeight = app.statusBarHidden ? 0 : app.statusBarFrame.size.height
+            let app = UIApplication.shared
+            let height = app.statusBarOrientation.isPortrait ? keyboardFrame!.size.height : keyboardFrame!.size.width;
+            let screenHeight = UIScreen.main.bounds.size.height
+            let statusBarHeight = app.isStatusBarHidden ? 0 : app.statusBarFrame.size.height
 
             let animateToHeight = screenHeight - height - statusBarHeight
-            let animationCurve = UIViewAnimationCurve(rawValue: Int(curveValue!.intValue)) ?? .EaseInOut
+            let animationCurve = UIViewAnimationCurve(rawValue: Int(curveValue!.int32Value)) ?? .easeInOut
             let animationDuration = Double(durationValue!.doubleValue)
-            let animationOption = UIViewAnimationOptions(rawValue: UInt(curveValue!.intValue << 16))
+            let animationOption = UIViewAnimationOptions(rawValue: UInt(curveValue!.int32Value << 16))
             // We bitshift animation curve << 16 to convert it from a view animation curve to a view animation option.
             // The result is the secret undeclared animation curve that Apple introduced in iOS8.
 
@@ -182,9 +180,9 @@ public class ACRKeyboardObserver : NSObject {
     // MARK: - Handle keyboard view
 
     private func getKeyboardView() -> UIView? {
-        guard UIApplication.sharedApplication().windows.count > 0 else { return nil }
+        guard UIApplication.shared.windows.count > 0 else { return nil }
 
-        for window in UIApplication.sharedApplication().windows {
+        for window in UIApplication.shared.windows {
             // Because we cant get access to the UIPeripheral throught the SDK we use its UIView.
             // UIPeripheral is a subclass of UIView anyway.
             // Our keyboard will end up as a UIView reference to the UIPeripheral / UIInput we want.
@@ -212,7 +210,7 @@ public class ACRKeyboardObserver : NSObject {
     private func registerKeyboardObserver() {
         unregisterKeyboardObserver()
         keyboard = getKeyboardView()
-        keyboard?.layer.addObserver(self, forKeyPath: KVOKey, options: .Initial, context: nil)
+        keyboard?.layer.addObserver(self, forKeyPath: KVOKey, options: .initial, context: nil)
     }
 
     private func unregisterKeyboardObserver() {
@@ -220,14 +218,14 @@ public class ACRKeyboardObserver : NSObject {
         keyboard.layer.removeObserver(self, forKeyPath: KVOKey)
     }
 
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyboard != nil && object != nil && keyPath != nil {
             if keyboard!.layer == (object as? CALayer) && KVOKey == keyPath! {
-                status(.FrameChanged, notification: nil)
+                status(.frameChanged, notification: nil)
                 return
             }
         }
 
-        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
 }
