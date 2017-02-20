@@ -139,11 +139,9 @@ public class ACRKeyboardObserver : NSObject {
                 return nil
             }
 
-            let portrait = UIDeviceOrientationIsPortrait(UIDevice.current.orientation)
-            let height = portrait ? keyboardFrame!.size.height : keyboardFrame!.size.width;
-            let screenHeight = UIScreen.main.bounds.size.height
-
             let app = UIApplication.shared
+            let height = app.statusBarOrientation.isPortrait ? keyboardFrame!.size.height : keyboardFrame!.size.width;
+            let screenHeight = UIScreen.main.bounds.size.height
             let statusBarHeight = app.isStatusBarHidden ? 0 : app.statusBarFrame.size.height
 
             let animateToHeight = screenHeight - height - statusBarHeight
