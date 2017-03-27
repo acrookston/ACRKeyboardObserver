@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ACRKeyboardObserver"
-  s.version      = "0.3.0"
+  s.version      = "0.3.1"
   s.summary      = "Swift iOS keyboard observer helping you manage keyboard notifications, frame changes and simplifies animations"
 
   s.description  = <<-DESC
@@ -15,6 +15,6 @@ ACRKeyboardObserver makes it easy to handle iOS keyboard state changes like Will
   s.social_media_url   = "http://twitter.com/acr"
 
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/acrookston/ACRKeyboardObserver.git", :tag => "0.2.0" }
+  s.source       = { :git => "https://github.com/acrookston/ACRKeyboardObserver.git", :tag => "0.3.1" }
   s.source_files = "ACRKeyboardObserver/*.swift"
 end
