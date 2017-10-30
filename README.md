@@ -78,7 +78,6 @@ class SomeKeyboardController: UIViewController, ACRKeyboardObserverDelegate {
 }
 ```
 
-
 I'll expand the documentation but the code is pretty simple and it should be fairly easy to read through it.
 
 ### Known issue(s)
@@ -97,13 +96,24 @@ One workaround is looking at your views, if they are in the "keyboard is hidden"
 
 MIT
 
+## Contributing
 
-### Contributions
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-I'm happy to include any improvements. There's no tests or demo app so I'll have to manually test any contributions, but please don't let that stop you. Those items might be a good place to help out. ;)
+Bug reports and pull requests are welcome via GitHub at https://github.com/acrookston/ACRAutoComplete.
 
-I haven't done extensive bug testing but the basics are working in my app. If you discover something, post an issue and I'll take a look at it. I'm usually good at responding quickly.
+You will need [SwiftLint](https://github.com/realm/SwiftLint) installed for the build process to pass.
 
+Unfortunately there are no tests or example app.
+
+If you're making a big change, please open an Issue first, so we can discuss. Otherwise:
+
+- Fork the repo
+- Open `ACRKeyboardObserver.xcodeproj`
+- Make your changes
+- Write tests if possible
+- Confirm that SwiftLint passes (no Xcode warnings).
+- Create a pull-request on Github.
 
 ### Thanks?
 
