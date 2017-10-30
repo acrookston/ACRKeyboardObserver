@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ACRKeyboardObserver"
-  s.version      = "0.3.1"
+  s.version      = "0.4.0"
   s.summary      = "Swift iOS keyboard observer helping you manage keyboard notifications, frame changes and simplifies animations"
 
   s.description  = <<-DESC
