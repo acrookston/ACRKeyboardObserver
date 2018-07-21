@@ -21,9 +21,9 @@ public struct KeyboardStatus {
 
 public struct KeyboardAnimation {
     public var top: CGFloat
-    public var curve: UIViewAnimationCurve
+    public var curve: UIView.AnimationCurve
     public var duration: Double
-    public var option: UIViewAnimationOptions
+    public var option: UIView.AnimationOptions
 }
 
 public protocol ACRKeyboardObserverDelegate : class {
@@ -43,28 +43,28 @@ public class ACRKeyboardObserver: NSObject {
     public func start() {
         NotificationCenter.default.add(observer: self,
                                        selector: #selector(keyboardDidChange),
-                                       name: .UIKeyboardDidChangeFrame)
+                                       name: UIResponder.keyboardDidChangeFrameNotification)
         NotificationCenter.default.add(observer: self,
                                        selector: #selector(keyboardWillHide),
-                                       name: .UIKeyboardWillHide)
+                                       name: UIResponder.keyboardWillHideNotification)
         NotificationCenter.default.add(observer: self,
                                        selector: #selector(keyboardDidHide),
-                                       name: .UIKeyboardDidHide)
+                                       name: UIResponder.keyboardDidHideNotification)
         NotificationCenter.default.add(observer: self,
                                        selector: #selector(keyboardWillShow),
-                                       name: .UIKeyboardWillShow)
+                                       name: UIResponder.keyboardWillShowNotification)
         NotificationCenter.default.add(observer: self,
                                        selector: #selector(keyboardDidShow),
-                                       name: .UIKeyboardDidShow)
+                                       name: UIResponder.keyboardDidShowNotification)
     }
 
     public func stop() {
         unregisterKeyboardObserver()
-        NotificationCenter.default.remove(observer: self, name: .UIKeyboardDidChangeFrame)
-        NotificationCenter.default.remove(observer: self, name: .UIKeyboardWillHide)
-        NotificationCenter.default.remove(observer: self, name: .UIKeyboardDidHide)
-        NotificationCenter.default.remove(observer: self, name: .UIKeyboardWillShow)
-        NotificationCenter.default.remove(observer: self, name: .UIKeyboardDidShow)
+        NotificationCenter.default.remove(observer: self, name: UIResponder.keyboardDidChangeFrameNotification)
+        NotificationCenter.default.remove(observer: self, name: UIResponder.keyboardWillHideNotification)
+        NotificationCenter.default.remove(observer: self, name: UIResponder.keyboardDidHideNotification)
+        NotificationCenter.default.remove(observer: self, name: UIResponder.keyboardWillShowNotification)
+        NotificationCenter.default.remove(observer: self, name: UIResponder.keyboardDidShowNotification)
     }
 
     public func addDelegate(_ delegate: ACRKeyboardObserverDelegate) {
@@ -142,9 +142,9 @@ public class ACRKeyboardObserver: NSObject {
         guard notification != nil else { return nil }
 
         if let info = (notification! as NSNotification).userInfo {
-            let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-            let curveValue = info[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
-            let durationValue = info[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
+            let keyboardFrame = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let curveValue = info[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+            let durationValue = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber
 
             if keyboardFrame == nil || curveValue == nil || durationValue == nil {
                 return nil
@@ -156,9 +156,9 @@ public class ACRKeyboardObserver: NSObject {
             let statusBarHeight = app.isStatusBarHidden ? 0 : app.statusBarFrame.size.height
 
             let animateToHeight = screenHeight - height - statusBarHeight
-            let animationCurve = UIViewAnimationCurve(rawValue: Int(curveValue!.int32Value)) ?? .easeInOut
+            let animationCurve = UIView.AnimationCurve(rawValue: Int(curveValue!.int32Value)) ?? .easeInOut
             let animationDuration = Double(durationValue!.doubleValue)
-            let animationOption = UIViewAnimationOptions(rawValue: UInt(curveValue!.int32Value << 16))
+            let animationOption = UIView.AnimationOptions(rawValue: UInt(curveValue!.int32Value << 16))
             // We bitshift animation curve << 16 to convert it from a view animation curve to a view animation option.
             // The result is the secret undeclared animation curve that Apple introduced in iOS8.
 
